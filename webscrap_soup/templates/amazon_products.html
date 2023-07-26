@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Amazon Product Data</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script>
+        // Define the all_products variable directly within the JavaScript code using Django template tags
+        const all_products = JSON.parse('{{ all_products|safe }}');
+    </script> -->
+
+</head>
+<body>
+    <h1>Amazon Product Data</h1>
+    <div id="product-list">
+        <!-- Product details will be displayed here -->
+    </div>
+    <script>
+    $(document).ready(function(){    
+        const productListDiv = document.getElementById('product-list');
+        var all_products = JSON.parse('{{ all_products|escapejs }}');
+        all_products.forEach((product) => {
+            const productDiv = document.createElement('div');
+            productDiv.innerHTML = `
+                <h3>${product['Product name']}</h3>
+                <p><strong>Manufacturer:</strong> ${product['Manufacturer']}</p>
+                <p><strong>Price:</strong> ₹${product['Product price']}</p>
+                <p><strong>Rating:</strong> ${product['Product rating']}</p>
+                <p><strong>Number of Reviews:</strong> ${product['Number of reviews']}</p>
+                <p><a href="${product['Product URL']}">Product Link</a></p>
+                <hr>
+            `;
+            productListDiv.appendChild(productDiv);
+        });
+    });
+
+
+    </script>
+    <!-- <table>
+        <thead>
+            <tr>
+                <th>Product URL</th>
+                <th>Product Name</th>
+                <th>Product Price</th>
+                <th>Rating</th>
+                <th>Number of Reviews</th>
+                <th>ASIN</th>
+                <th>Manufacturer</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in all_products %}
+            <tr>                
+                <td><a href="{{ product.product_url }}">{{ product.product_url }}</a></td>
+                <td>{{ product.product_name }}</td>
+                <td>{{ product.product_price }}</td>
+                <td>{{ product.product_rating }}</td>
+                <td>{{ product.num_reviews }}</td>
+                <td>{{ product.asin }}</td>
+                <td>{{ product.manufacturer_name}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table> -->
+</body>
+</html>
